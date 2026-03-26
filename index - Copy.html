@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPL Score Predictor | ML Powered</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="gradient-bg">
+        <div class="gradient-sphere"></div>
+        <div class="gradient-sphere"></div>
+        <div class="gradient-sphere"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="side-logos left-logos">
+    <img src="CSKlogo.webp">
+    <img src="DC.webp">
+    <img src="GT.png">
+    <img src="KKR.webp">
+    <img src="LSG.webp">
+</div>
+
+<div class="side-logos right-logos">
+    <img src="MI.webp">
+    <img src="PK.png">
+    <img src="RCB.png">
+    <img src="SRH.png">
+    <img src="RR.png">
+</div>
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-container">
+                <span class="logo-icon">🏏</span>
+                <h1 class="logo-text">IPL<span class="logo-highlight">Score</span></h1>
+            </div>
+            <p class="tagline">AI-Powered Score Predictions</p>
+        </header>
+
+        <!-- Prediction Card -->
+        <div class="prediction-card">
+            <h2 class="card-title">Match Score Predictor</h2>
+            
+            <form id="predictionForm" class="prediction-form" action="/predict" method="POST">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Batting Team</label>
+                        <select name="batting_team" required>
+                            <option value="">Select Team</option>
+                            <option value="Chennai Super Kings">Chennai Super Kings</option>
+    <option value="Mumbai Indians">Mumbai Indians</option>
+    <option value="Royal Challengers Bangalore">Royal Challengers Bangalore</option>
+    <option value="Kolkata Knight Riders">Kolkata Knight Riders</option>
+    <option value="Sunrisers Hyderabad">Sunrisers Hyderabad</option>
+    <option value="Rajasthan Royals">Rajasthan Royals</option>
+    <option value="Delhi Capitals">Delhi Capitals</option>
+    <option value="Punjab Kings">Punjab Kings</option>
+    <option value="Gujarat Titans">Gujarat Titans</option>
+    <option value="Lucknow Super Giants">Lucknow Super Giants</option>
+                            
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Bowling Team</label>
+                        <select name="bowling_team" required>
+                            <option value="">Select Team</option>
+                            <option value="Chennai Super Kings">Chennai Super Kings</option>
+    <option value="Mumbai Indians">Mumbai Indians</option>
+    <option value="Royal Challengers Bangalore">Royal Challengers Bangalore</option>
+    <option value="Kolkata Knight Riders">Kolkata Knight Riders</option>
+    <option value="Sunrisers Hyderabad">Sunrisers Hyderabad</option>
+    <option value="Rajasthan Royals">Rajasthan Royals</option>
+    <option value="Delhi Capitals">Delhi Capitals</option>
+    <option value="Punjab Kings">Punjab Kings</option>
+    <option value="Gujarat Titans">Gujarat Titans</option>
+    <option value="Lucknow Super Giants">Lucknow Super Giants</option>
+                            
+                          
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Venue</label>
+                    <select name="venue" required>
+                        <option value="">Select Venue</option>
+                        <option value="Wankhede Stadium">Wankhede Stadium, Mumbai</option>
+    <option value="Eden Gardens">Eden Gardens, Kolkata</option>
+    <option value="M. Chinnaswamy Stadium">M. Chinnaswamy Stadium, Bangalore</option>
+    <option value="MA Chidambaram Stadium">MA Chidambaram Stadium, Chennai</option>
+    <option value="Arun Jaitley Stadium">Arun Jaitley Stadium, Delhi</option>
+    <option value="Narendra Modi Stadium">Narendra Modi Stadium, Ahmedabad</option>
+    <option value="Rajiv Gandhi Intl Stadium">Rajiv Gandhi Intl Stadium, Hyderabad</option>
+    <option value="Sawai Mansingh Stadium">Sawai Mansingh Stadium, Jaipur</option>
+    <option value="Punjab Cricket Association Stadium">PCA Stadium, Mohali</option>
+    <option value="Ekana Cricket Stadium">Ekana Stadium, Lucknow</option>
+    <option value="Barsapara Stadium">Barsapara Stadium, Guwahati</option>
+    <option value="HPCA Stadium">HPCA Stadium, Dharamshala</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Current Runs</label>
+                        <input type="number" name="runs" min="0" placeholder="e.g., 45" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Wickets Lost</label>
+                        <input type="number" name="wickets" min="0" max="10" placeholder="e.g., 2" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Overs Completed</label>
+                        <input type="number" step="0.1" name="overs" min="0" max="20" placeholder="e.g., 5.3" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Run Rate</label>
+                        <input type="number"
+                        step="0.1"  name="strike_rate" min="0" placeholder="e.g., 145.5" required>
+                    </div>
+                </div>
+
+               
+
+                <button type="submit" class="predict-btn" id="predictBtn">
+                    <span>Predict Score</span>
+                    <div class="loader" style="display: none;"></div>
+                </button>
+            </form>
+
+            <!-- Results Section -->
+            <div class="results-card" id="resultsCard" style="display: none;">
+                <h3>Prediction Results</h3>
+                
+                <div class="score-display">
+                    <span class="score-label">Predicted Total</span>
+                    <span class="score-value" id="predictedScore">0</span>
+                </div>
+
+                <div class="confidence-bar">
+                    <div class="confidence-fill" id="confidenceFill" style="width: 0%"></div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-label">Confidence</span>
+                        <span class="stat-value" id="confidenceValue">0%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Range</span>
+                        <span class="stat-value" id="scoreRange">0-0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
