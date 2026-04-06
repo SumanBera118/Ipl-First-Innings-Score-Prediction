@@ -1,10 +1,15 @@
 from flask import Flask, render_template, request
 import pickle
 import pandas as pd
+import gzip
+import pickle
 
 app = Flask(__name__)
 
-model = pickle.load(open('model.pkl','rb'))
+
+
+with gzip.open('model.pkl.gz', 'rb') as f:
+    model = pickle.load(f)
 cols = pickle.load(open('columns.pkl','rb'))
 
 # ✅ HOME ROUTE
