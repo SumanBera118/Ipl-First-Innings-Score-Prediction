@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPL Score Predictor | ML Powered</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     
 </head>
 <body>
@@ -18,24 +18,24 @@
     <!-- Main Container -->
     <div class="container">
         <div class="side-logos left-logos">
-    <img src="CSKlogo.webp">
-    <img src="DC.webp">
-    <img src="GT.png">
-    <img src="KKR.webp">
-    <img src="LSG.webp">
+    <img src="{{ url_for('static', filename='CSKlogo.webp') }}">
+    <img src= "{{ url_for('static', filename='DC.webp') }}">
+    <img src="{{ url_for('static', filename='GT.png') }}">
+    <img src="{{ url_for('static', filename='KKR.webp') }}">
+    <img src="{{ url_for('static', filename='LSG.webp') }}">
 </div>
 
 <div class="side-logos right-logos">
-    <img src="MI.webp">
-    <img src="PK.png">
-    <img src="RCB.png">
-    <img src="SRH.png">
-    <img src="RR.png">
+    <img src="{{ url_for('static', filename='MI.webp') }}">
+    <img src="{{ url_for('static', filename='PK.png') }}">
+    <img src="{{ url_for('static', filename='RCB.png') }}">
+    <img src="{{ url_for('static', filename='SRH.png') }}">
+    <img src="{{ url_for('static', filename='RR.png') }}">
 </div>
         <!-- Header -->
         <header class="header">
             <div class="logo-container">
-                <span class="logo-icon">🏏</span>
+                <span class="logo-icon"><img src="{{ url_for('static', filename='ipl-logo.png') }}"></span>
                 <h1 class="logo-text">IPL<span class="logo-highlight">Score</span></h1>
             </div>
             <p class="tagline">AI-Powered Score Predictions</p>
@@ -134,32 +134,45 @@
             </form>
 
             <!-- Results Section -->
-            <div class="results-card" id="resultsCard" style="display: none;">
-                <h3>Prediction Score</h3>
-                
-                <div class="score-display">
-                    <span class="score-label">Predicted Total</span>
-                    <span class="score-value" id="predictedScore">0</span>
-                </div>
+            {% if prediction_text %}
+<div class="results-card">
 
-                <div class="confidence-bar">
-                    <div class="confidence-fill" id="confidenceFill" style="width: 0%"></div>
-                </div>
+    <h3>Prediction Score</h3>
+
+    <div class="score-display">
+        <span class="score-label">Predicted Total</span>
+        <span class="score-value">{{ prediction_text }}</span>
+    </div>
+
+    <div class="confidence-bar">
+        <div class="confidence-fill" style="width: 70%"></div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-item">
+            <span class="stat-label">Confidence</span>
+            <span class="stat-value">70%</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-label">Range</span>
+            <span class="stat-value">{{ prediction_text|int - 10 }} - {{ prediction_text|int + 10 }}</span>
+        </div>
+    </div>
+
+</div>
+{% endif %}
+<ul class="cool-list">
+    <li>🔥 AI Powered Prediction</li>
+    <li>📊 Real-time Score Analysis</li>
+    <li>⚡ Fast & Accurate Model</li>
+    <li>🏏 IPL Smart Insights</li>
+</ul>
+
                 
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <span class="stat-label">Confidence</span>
-                        <span class="stat-value" id="confidenceValue">0%</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Range</span>
-                        <span class="stat-value" id="scoreRange">0-0</span>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    
 </body>
 </html>

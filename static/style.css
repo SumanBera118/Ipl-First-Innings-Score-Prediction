@@ -4,27 +4,35 @@
     padding: 0;
     box-sizing: border-box;
 }
-
 body {
     font-family: 'Space Grotesk', sans-serif;
     min-height: 100vh;
-    background: #0a0b1a;
     color: #fff;
     overflow-x: hidden;
     position: relative;
+
+    /* 🔥 Animated Gradient Background */
+    background: linear-gradient(-45deg, #0a0b1a, #1a1b3a, #2a2b5a, #0f2027);
+    background-size: 400% 400%;
+    animation: gradientBG 12s ease infinite;
 }
 
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
 /* Animated Gradient Background */
 .gradient-bg {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    overflow: hidden;
+    z-index: 0;
 }
-
 .gradient-sphere {
     position: absolute;
     width: 80vmin;
@@ -72,6 +80,63 @@ body {
     padding: 2rem 1.5rem;
     position: relative;
     z-index: 1;
+}
+/* Container */
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+/* Logo Image */
+.logo-icon img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    transition: transform 0.4s ease;
+}
+
+/* Hover effect on logo */
+.logo-container:hover .logo-icon img {
+    transform: rotate(360deg) scale(1.1);
+}
+
+/* Text */
+.logo-text {
+    font-size: 28px;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    color: rgb(235, 15, 224);
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+/* Highlight part */
+.logo-highlight {
+    color: #e4e00e;
+    text-shadow: 0 0 10px rgb(246, 242, 9);
+}
+
+/* Hover text animation */
+.logo-container:hover .logo-text {
+    transform: scale(1.05);
+    color: #00ffcc;
+}
+
+/* Background (optional for full effect) */
+body {
+    background: linear-gradient(270deg, #1a1a2e, #16213e, #0f3460);
+    background-size: 600% 600%;
+    animation: gradientBG 10s ease infinite;
+}
+
+/* Background animation */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 .side-logos {
     position:fixed;
@@ -228,29 +293,39 @@ body {
 
 /* Predict Button */
 .predict-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #667eea, #764ba2);
     border: none;
     border-radius: 1rem;
     padding: 1rem;
     color: white;
-    font-size: 1.125rem;
+    font-size: 1.2rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-    margin-top: 1rem;
+}
+
+/* Glow effect */
+.predict-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: 0.5s;
+}
+
+.predict-btn:hover::before {
+    left: 100%;
 }
 
 .predict-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 20px 30px -10px rgba(102, 126, 234, 0.5);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #667eea;
 }
-
-.predict-btn:active {
-    transform: translateY(0);
-}
-
 .predict-btn .loader {
     display: inline-block;
     width: 20px;
@@ -378,5 +453,141 @@ body {
     
     .score-value {
         font-size: 3rem;
+    }
+}
+
+
+/* ===============================
+🔥 PREMIUM ANIMATIONS + EFFECTS
+================================ */
+
+/* Smooth page entry */
+body {
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Card Hover Premium */
+.prediction-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+}
+
+/* Inputs glow effect */
+.form-group input:focus,
+.form-group select:focus {
+    box-shadow: 0 0 20px rgba(102,126,234,0.8);
+}
+
+/* Score animation */
+.score-value {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* ===============================
+🔥 COOL UL (LIST STYLE FEATURES)
+================================ */
+
+.cool-list {
+    list-style: none;
+    margin-top: 2rem;
+    padding: 0;
+}
+
+.cool-list li {
+    background: rgba(255,255,255,0.05);
+    margin: 10px 0;
+    padding: 12px 20px;
+    border-radius: 10px;
+    position: relative;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+/* Animated left border */
+.cool-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 5px;
+    background: linear-gradient(180deg, #667eea, #764ba2);
+    border-radius: 10px 0 0 10px;
+    transform: scaleY(0);
+    transition: 0.3s;
+}
+
+/* Hover effect */
+.cool-list li:hover {
+    transform: translateX(10px) scale(1.02);
+    background: rgba(255,255,255,0.1);
+}
+
+.cool-list li:hover::before {
+    transform: scaleY(1);
+}
+
+/* ===============================
+🔥 GLOW TEXT EFFECT
+================================ */
+
+.logo-text {
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px #667eea; }
+    to { text-shadow: 0 0 25px #764ba2; }
+}
+
+/* ===============================
+🔥 FLOATING IMAGES EFFECT
+================================ */
+
+.side-logos img {
+    animation: floaty 4s ease-in-out infinite;
+}
+
+@keyframes floaty {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+/* ===============================
+🔥 BUTTON CLICK EFFECT
+================================ */
+
+.predict-btn:active {
+    transform: scale(0.95);
+}
+
+/* ===============================
+🔥 SCROLL ANIMATION
+================================ */
+
+.container {
+    animation: slideUpMain 1s ease;
+}
+
+@keyframes slideUpMain {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
