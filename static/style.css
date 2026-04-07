@@ -195,14 +195,14 @@ body {
     50% { transform: translateY(-10px); }
 }
 
-.logo-text {
+/* .logo-text {
     font-size: 2.5rem;
     font-weight: 700;
     background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: -0.5px;
-}
+} */
 
 .logo-highlight {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -384,9 +384,8 @@ body {
 .score-value {
     font-size: 4rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #fff, #a5b4fc);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #ffffff;   /* 👈 FIX */
+    text-align: center;
     line-height: 1;
 }
 

@@ -136,22 +136,34 @@
 
             <!-- Results Section -->
             {% if prediction_text %}
-<div class="confidence-bar">
-    <div class="confidence-fill" style="width: {{ confidence }}%"></div>
-</div>
+            
+<div class="results-card">
 
-<div class="stats-grid">
-    <div class="stat-item">
-        <span class="stat-label">Confidence</span>
-        <span class="stat-value">{{ confidence }}%</span>
+    <h3>Prediction Score</h3>
+
+    <div class="score-display">
+        <span class="score-label">Predicted Total</span>
+        <span class="score-value">{{ prediction_text }}</span>
     </div>
 
-    <div class="stat-item">
-        <span class="stat-label">Range</span>
-        <span class="stat-value">
-            {{ (prediction_text | int) - 10 }} - {{ (prediction_text | int) + 10 }}
-        </span>
+    <div class="confidence-bar">
+        <div class="confidence-fill" style="width: {{ confidence }}%"></div>
     </div>
+
+    <div class="stats-grid">
+        <div class="stat-item">
+            <span class="stat-label">Confidence</span>
+            <span class="stat-value">{{ confidence }}%</span>
+        </div>
+
+        <div class="stat-item">
+            <span class="stat-label">Range</span>
+            <span class="stat-value">
+                {{ (prediction_text | int) - 10 }} - {{ (prediction_text | int) + 10 }}
+            </span>
+        </div>
+    </div>
+
 </div>
 {% endif %}
 <ul class="cool-list">
