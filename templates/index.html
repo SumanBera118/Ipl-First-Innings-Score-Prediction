@@ -35,12 +35,28 @@
 </div>
         <!-- Header -->
         <header class="header">
-            <div class="logo-container">
-                <span class="logo-icon"><img src="{{ url_for('static', filename='ipl-logo.png') }}"></span>
-                <h1 class="logo-text">IPL<span class="logo-highlight">Score</span></h1>
-            </div>
-            <p class="tagline">AI-Powered Score Predictions</p>
-        </header>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+
+        <!-- LEFT SIDE (Logo) -->
+        <div class="logo-container">
+            <span class="logo-icon">
+                <img src="{{ url_for('static', filename='ipl-logo.png') }}">
+            </span>
+            <h1 class="logo-text">IPL<span class="logo-highlight">Score</span></h1>
+        </div>
+
+        <!-- RIGHT SIDE (Logout Button) -->
+        <div style="display:flex; align-items:center; gap:10px;">
+    {% if current_user.is_authenticated %}
+        <span style="color:white;">Hi, {{ current_user.username }}</span>
+        <a href="/logout" class="logout-btn">Logout</a>
+    {% endif %}
+</div>
+
+    </div>
+
+    <p class="tagline">AI-Powered Score Predictions</p>
+</header>
 
         <!-- Prediction Card -->
         <div class="prediction-card">

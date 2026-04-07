@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | IPL Predictor</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(-45deg, #0f2027, #2c5364, #1a1b3a);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .register-box {
+            width: 380px;
+            padding: 30px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 0 30px rgba(0,0,0,0.6);
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+        input:focus, select:focus {
+            box-shadow: 0 0 10px #667eea;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #667eea;
+        }
+
+        p {
+            margin-top: 15px;
+            color: #ccc;
+        }
+
+        a {
+            color: #00ffcc;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="register-box">
+
+    <h2>Create Account 📝</h2>
+
+    <form method="POST">
+
+        <input type="text" name="fullname" placeholder="Full Name" required>
+
+        <input type="text" name="username" placeholder="Username" required>
+
+        <input type="email" name="email" placeholder="Email" required>
+
+        <input type="password" name="password" placeholder="Password" required>
+
+        <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+
+        <select name="fav_team" required>
+            <option value="">Select Favorite Team</option>
+            <option>Chennai Super Kings</option>
+            <option>Mumbai Indians</option>
+            <option>Royal Challengers Bangalore</option>
+            <option>Kolkata Knight Riders</option>
+            <option>Sunrisers Hyderabad</option>
+            <option>Rajasthan Royals</option>
+            <option>Delhi Capitals</option>
+            <option>Punjab Kings</option>
+            <option>Gujarat Titans</option>
+            <option>Lucknow Super Giants</option>
+        </select>
+
+        <button type="submit">Register</button>
+
+    </form>
+
+    <p>Already have an account? <a href="/login">Login</a></p>
+
+</div>
+
+</body>
+</html>
