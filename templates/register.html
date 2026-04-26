@@ -1,140 +1,207 @@
+<!-- =========================
+REGISTER.HTML
+========================= -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register | IPL Predictor</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPL Register</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(-45deg, #0f2027, #2c5364, #1a1b3a);
-            background-size: 400% 400%;
-            animation: gradientBG 10s ease infinite;
-        }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+body{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:
+linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
+url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=1400&q=80');
+background-size:cover;
+background-position:center;
+padding:20px;
+}
 
-        .register-box {
-            width: 380px;
-            padding: 30px;
-            border-radius: 20px;
-            background: rgba(255,255,255,0.08);
-            backdrop-filter: blur(20px);
-            box-shadow: 0 0 30px rgba(0,0,0,0.6);
-            text-align: center;
-            animation: fadeIn 1s ease;
-        }
+.card{
+width:460px;
+padding:38px 34px;
+border-radius:24px;
+background:rgba(255,255,255,.12);
+backdrop-filter:blur(18px);
+border:1px solid rgba(255,255,255,.18);
+box-shadow:0 20px 40px rgba(0,0,0,.35);
+color:white;
+}
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+.logo{
+font-size:46px;
+text-align:center;
+margin-bottom:8px;
+}
 
-        h2 {
-            color: white;
-            margin-bottom: 20px;
-        }
+h2{
+text-align:center;
+font-size:28px;
+margin-bottom:8px;
+}
 
-        input, select {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border-radius: 10px;
-            border: none;
-            outline: none;
-            font-size: 14px;
-        }
+.sub{
+text-align:center;
+font-size:14px;
+opacity:.85;
+margin-bottom:22px;
+}
 
-        input:focus, select:focus {
-            box-shadow: 0 0 10px #667eea;
-        }
+.input-box{
+margin-bottom:14px;
+}
 
-        button {
-            width: 100%;
-            padding: 12px;
-            margin-top: 10px;
-            border: none;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+.input-box label{
+display:block;
+margin-bottom:6px;
+font-size:14px;
+font-weight:500;
+}
 
-        button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px #667eea;
-        }
+.input-box input,
+.input-box select{
+width:100%;
+padding:13px;
+border:none;
+outline:none;
+border-radius:12px;
+background:rgba(255,255,255,.14);
+color:white;
+font-size:14px;
+}
 
-        p {
-            margin-top: 15px;
-            color: #ccc;
-        }
+.input-box input::placeholder{
+color:#ddd;
+}
 
-        a {
-            color: #00ffcc;
-            text-decoration: none;
-        }
+.input-box select option{
+color:black;
+}
 
-        a:hover {
-            text-decoration: underline;
-        }
+.input-box input:focus,
+.input-box select:focus{
+box-shadow:0 0 0 2px #00c6ff;
+}
 
-    </style>
+.btn{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:linear-gradient(90deg,#00c6ff,#0072ff);
+color:white;
+font-size:16px;
+font-weight:600;
+cursor:pointer;
+transition:.3s;
+margin-top:8px;
+}
+
+.btn:hover{
+transform:translateY(-2px);
+box-shadow:0 10px 20px rgba(0,114,255,.35);
+}
+
+.error{
+background:rgba(255,0,0,.18);
+padding:10px;
+border-radius:10px;
+margin-bottom:14px;
+font-size:14px;
+text-align:center;
+}
+
+.link{
+text-align:center;
+margin-top:18px;
+font-size:14px;
+}
+
+.link a{
+color:#fff;
+font-weight:600;
+text-decoration:none;
+border-bottom:1px solid rgba(255,255,255,.5);
+}
+</style>
 </head>
 <body>
 
-<div class="register-box">
+<div class="card">
 
-    <h2>Create Account 📝</h2>
+<div class="logo">🏏</div>
+<h2>Create Account</h2>
+<p class="sub">Register to use IPL Predictor</p>
 
-    <form method="POST">
+{% if error %}
+<div class="error">{{ error }}</div>
+{% endif %}
 
-        <input type="text" name="fullname" placeholder="Full Name" required>
+<form action="/register" method="POST">
 
-        <input type="text" name="username" placeholder="Username" required>
+<div class="input-box">
+<label>Full Name</label>
+<input type="text" name="fullname" placeholder="Enter full name" required>
+</div>
 
-        <input type="email" name="email" placeholder="Email" required>
+<div class="input-box">
+<label>Username</label>
+<input type="text" name="username" placeholder="Choose username" required>
+</div>
 
-        <input type="password" name="password" placeholder="Password" required>
+<div class="input-box">
+<label>Email</label>
+<input type="email" name="email" placeholder="Enter Gmail address" required>
+</div>
 
-        <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+<div class="input-box">
+<label>Password</label>
+<input type="password" name="password" placeholder="Create password" required>
+</div>
 
-        <select name="fav_team" required>
-            <option value="">Select Favorite Team</option>
-            <option>Chennai Super Kings</option>
-            <option>Mumbai Indians</option>
-            <option>Royal Challengers Bangalore</option>
-            <option>Kolkata Knight Riders</option>
-            <option>Sunrisers Hyderabad</option>
-            <option>Rajasthan Royals</option>
-            <option>Delhi Capitals</option>
-            <option>Punjab Kings</option>
-            <option>Gujarat Titans</option>
-            <option>Lucknow Super Giants</option>
-        </select>
+<div class="input-box">
+<label>Confirm Password</label>
+<input type="password" name="confirm_password" placeholder="Confirm password" required>
+</div>
 
-        <button type="submit">Register</button>
+<div class="input-box">
+<label>Favourite Team</label>
+<select name="fav_team" required>
+<option value="">Select Team</option>
+<option>CSK</option>
+<option>MI</option>
+<option>RCB</option>
+<option>KKR</option>
+<option>SRH</option>
+<option>RR</option>
+<option>DC</option>
+<option>PBKS</option>
+<option>GT</option>
+<option>LSG</option>
+</select>
+</div>
 
-    </form>
+<button type="submit" class="btn">Register Now</button>
 
-    <p>Already have an account? <a href="/login">Login</a></p>
+</form>
+
+<div class="link">
+Already have account? <a href="/login">Login</a>
+</div>
 
 </div>
 

@@ -1,12 +1,12 @@
 <!-- =========================
-LOGIN.HTML
+VERIFY_OTP.HTML
 ========================= -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IPL Login</title>
+<title>Verify OTP</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
@@ -33,58 +33,54 @@ padding:20px;
 
 .card{
 width:420px;
-padding:40px 35px;
+padding:40px 34px;
 border-radius:24px;
 background:rgba(255,255,255,.12);
 backdrop-filter:blur(18px);
 border:1px solid rgba(255,255,255,.18);
 box-shadow:0 20px 40px rgba(0,0,0,.35);
 color:white;
+text-align:center;
 }
 
 .logo{
 font-size:48px;
-text-align:center;
-margin-bottom:8px;
+margin-bottom:10px;
 }
 
 h2{
-text-align:center;
 font-size:28px;
 margin-bottom:8px;
 }
 
 .sub{
-text-align:center;
 font-size:14px;
-opacity:.8;
-margin-bottom:25px;
+opacity:.85;
+margin-bottom:22px;
+line-height:1.5;
 }
 
 .input-box{
 margin-bottom:16px;
 }
 
-.input-box label{
-display:block;
-margin-bottom:7px;
-font-size:14px;
-font-weight:500;
-}
-
 .input-box input{
 width:100%;
-padding:14px;
+padding:15px;
 border:none;
 outline:none;
 border-radius:12px;
 background:rgba(255,255,255,.14);
 color:white;
-font-size:15px;
+font-size:20px;
+text-align:center;
+letter-spacing:6px;
 }
 
 .input-box input::placeholder{
 color:#ddd;
+letter-spacing:1px;
+font-size:15px;
 }
 
 .input-box input:focus{
@@ -102,7 +98,6 @@ font-size:16px;
 font-weight:600;
 cursor:pointer;
 transition:.3s;
-margin-top:8px;
 }
 
 .btn:hover{
@@ -116,11 +111,9 @@ padding:10px;
 border-radius:10px;
 margin-bottom:14px;
 font-size:14px;
-text-align:center;
 }
 
 .link{
-text-align:center;
 margin-top:18px;
 font-size:14px;
 }
@@ -136,33 +129,29 @@ border-bottom:1px solid rgba(255,255,255,.5);
 <body>
 
 <div class="card">
-<div class="logo">🏏</div>
-<h2>Welcome Back</h2>
-<p class="sub">Login to access IPL Predictor</p>
+
+<div class="logo">📩</div>
+<h2>OTP Verification</h2>
+<p class="sub">Enter the 6-digit code sent to your Gmail account</p>
 
 {% if error %}
 <div class="error">{{ error }}</div>
 {% endif %}
 
-<form action="/login" method="POST">
+<form method="POST">
 
 <div class="input-box">
-<label>Username</label>
-<input type="text" name="username" placeholder="Enter username" required>
+<input type="text" name="otp" maxlength="6" placeholder="Enter OTP" required>
 </div>
 
-<div class="input-box">
-<label>Password</label>
-<input type="password" name="password" placeholder="Enter password" required>
-</div>
-
-<button type="submit" class="btn">Login & Send OTP</button>
+<button type="submit" class="btn">Verify OTP</button>
 
 </form>
 
 <div class="link">
-Don't have account? <a href="/register">Create Account</a>
+Didn't receive code? <a href="/login">Resend OTP</a>
 </div>
+
 </div>
 
 </body>

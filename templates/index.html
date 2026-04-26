@@ -46,10 +46,22 @@
         </div>
 
         <!-- RIGHT SIDE (Logout Button) -->
-        <div style="display:flex; align-items:center; gap:10px;">
+        <!-- REPLACE YOUR OLD BLOCK WITH THIS -->
+
+<div class="user-panel">
     {% if current_user.is_authenticated %}
-        <span style="color:white;">Hi, {{ current_user.username }}</span>
-        <a href="/logout" class="logout-btn">Logout</a>
+
+    <div class="welcome-box">
+        <span class="user-icon">🧑🏻</span>
+        <span class="welcome-text">
+            Hi, {{ current_user.username }}
+        </span>
+    </div>
+
+    <a href="/logout" class="logout-btn">
+        Logout
+    </a>
+
     {% endif %}
 </div>
 
