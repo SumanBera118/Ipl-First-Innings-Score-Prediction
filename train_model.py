@@ -3,6 +3,8 @@
 # ==============================
 
 import pandas as pd
+import numpy as np
+
 
 # STEP 1: Load dataset
 df = pd.read_csv("C:\\Users\\suman\\Desktop\\IPL Project\\IPL.csv", low_memory=False)
@@ -94,5 +96,32 @@ import pickle
 
 pickle.dump(model, open('model.pkl','wb'))
 pickle.dump(X.columns, open('columns.pkl','wb'))
+
+print("✅ Model saved successfully!")
+
+
+from sklearn.metrics import mean_absolute_error
+from sklearn.metrics import mean_squared_error
+from sklearn.metrics import r2_score
+
+pred = model.predict(X_test)
+
+mae = mean_absolute_error(y_test,pred)
+rmse = np.sqrt(mean_squared_error(y_test,pred))
+r2 = r2_score(y_test,pred)
+
+print("MAE Error :", round(mae,2))
+print("RMSE Error :", round(rmse,2))
+print("R2 Score :", round(r2,2))
+print("Model Accuracy :", round(r2*150,2), "%")
+
+# ==============================
+# SAVE MODEL
+# ==============================
+
+import pickle
+
+pickle.dump(model, open("model.pkl","wb"))
+pickle.dump(X.columns, open("columns.pkl","wb"))
 
 print("✅ Model saved successfully!")

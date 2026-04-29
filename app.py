@@ -66,7 +66,7 @@ with open('model.pkl', 'rb') as f:
 with open('columns.pkl', 'rb') as f:
     cols = pickle.load(f)
 
-print(cols)
+
 
 # ===========================
 # LOGIN PAGE + SEND OTP
@@ -260,10 +260,31 @@ def predict():
 
         confidence = 91
 
+        # =========================
+        # TEAM LOGO MAP
+        # =========================
+
+        team_logo_map = {
+            "Chennai Super Kings": "CSKlogo.webp",
+            "Delhi Capitals": "DC.webp",
+            "Gujarat Titans": "GT.png",
+            "Kolkata Knight Riders": "KKR.webp",
+            "Lucknow Super Giants": "LSG.webp",
+            "Mumbai Indians": "MI.webp",
+            "Punjab Kings": "PK.png",
+            "Royal Challengers Bangalore": "RCB.png",
+            "Rajasthan Royals": "RR.png",
+            "Sunrisers Hyderabad": "SRH.png"
+        }
+
+        team_logo = team_logo_map.get(batting_team, "ipl-logo.png")
+
         return render_template(
             'index.html',
             prediction_text=final_score,
-            confidence=confidence
+            batting_team=batting_team,
+            confidence=confidence,
+            team_logo=team_logo
         )
 
     except Exception as e:
@@ -272,7 +293,9 @@ def predict():
         return render_template(
             'index.html',
             prediction_text="Prediction Error",
+            batting_team=batting_team,
             confidence=0,
+            team_logo="ipl-logo.png",
             error=str(e)
         )
 # ===========================
