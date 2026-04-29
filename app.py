@@ -29,7 +29,7 @@ app.config['SECRET_KEY'] = 'secret123'
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app.config['SQLALCHEMY_DATABASE_URI'] = \
-    'sqlite:///' + os.path.join(basedir, 'users.db')
+'sqlite:///' + os.path.join(basedir, 'users.db')
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -58,27 +58,30 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 # ===========================
-# LOAD MACHINE LEARNING MODEL
+# LOAD MODEL
 # ===========================
-with open('model.pkl', 'rb') as f:
+with open("model.pkl", "rb") as f:
     model = pickle.load(f)
 
-with open('columns.pkl', 'rb') as f:
+with open("columns.pkl", "rb") as f:
     cols = pickle.load(f)
 
-
-
 # ===========================
-# LOGIN PAGE + SEND OTP
+# LOGIN
 # ===========================
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+
     error = None
 
     if request.method == 'POST':
 
-        username = request.form['username']
-        password = request.form['password']
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        if not username or not password:
+            error = "Please fill all fields"
+            return render_template("login.html", error=error)
 
         user = User.query.filter_by(username=username).first()
 
@@ -107,7 +110,7 @@ def login():
                 return redirect(url_for('verify_otp'))
 
             except Exception as e:
-                error = f"Email sending failed: {e}"
+                error = f"Email sending failed"
 
         else:
             error = "Incorrect username or password"
@@ -124,7 +127,7 @@ def verify_otp():
 
     if request.method == 'POST':
 
-        user_otp = request.form['otp']
+        user_otp = request.form.get('otp')
 
         if user_otp == session.get('otp'):
 
@@ -143,19 +146,19 @@ def verify_otp():
     return render_template("verify_otp.html", error=error)
 
 # ===========================
-# REGISTER PAGE
+# REGISTER
 # ===========================
 @app.route('/register', methods=['GET', 'POST'])
 def register():
 
     if request.method == 'POST':
 
-        fullname = request.form['fullname']
-        username = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
-        confirm = request.form['confirm_password']
-        fav_team = request.form['fav_team']
+        fullname = request.form.get('fullname')
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        confirm = request.form.get('confirm_password')
+        fav_team = request.form.get('fav_team')
 
         if password != confirm:
             return render_template(
@@ -202,28 +205,34 @@ def logout():
     return redirect(url_for('login'))
 
 # ===========================
-# HOME PAGE
+# HOME
 # ===========================
 @app.route('/')
 @login_required
 def home():
-    return render_template('index.html')
+    return render_template(
+        'index.html',
+        prediction_text=0,
+        confidence=0,
+        team_logo=None
+    )
 
 # ===========================
-# IPL SCORE PREDICTION
+# PREDICT
 # ===========================
 @app.route('/predict', methods=['POST'])
 @login_required
 def predict():
+
     try:
-        batting_team = request.form['batting_team']
-        bowling_team = request.form['bowling_team']
-        venue = request.form['venue']
+        batting_team = request.form.get('batting_team')
+        bowling_team = request.form.get('bowling_team')
+        venue = request.form.get('venue')
 
-        runs = int(request.form['team_runs'])
-        wickets = int(request.form['team_wicket'])
+        runs = int(request.form.get('team_runs'))
+        wickets = int(request.form.get('team_wicket'))
 
-        over_input = request.form['over']
+        over_input = request.form.get('over')
         over_float = float(over_input)
 
         whole = int(over_float)
@@ -257,12 +266,7 @@ def predict():
             boost = 20
 
         final_score = int(prediction) + boost
-
         confidence = 91
-
-        # =========================
-        # TEAM LOGO MAP
-        # =========================
 
         team_logo_map = {
             "Chennai Super Kings": "CSKlogo.webp",
@@ -277,29 +281,29 @@ def predict():
             "Sunrisers Hyderabad": "SRH.png"
         }
 
-        team_logo = team_logo_map.get(batting_team, "ipl-logo.png")
+        team_logo = team_logo_map.get(
+            batting_team,
+            "ipl-logo.png"
+        )
 
         return render_template(
             'index.html',
             prediction_text=final_score,
-            batting_team=batting_team,
             confidence=confidence,
             team_logo=team_logo
         )
 
     except Exception as e:
-        print("Prediction Error:", e)
 
         return render_template(
             'index.html',
             prediction_text="Prediction Error",
-            batting_team=batting_team,
             confidence=0,
-            team_logo="ipl-logo.png",
-            error=str(e)
+            team_logo=None
         )
+
 # ===========================
-# RUN APP
+# RUN
 # ===========================
 if __name__ == "__main__":
 
@@ -307,3 +311,4 @@ if __name__ == "__main__":
         db.create_all()
 
     app.run(debug=True)
+

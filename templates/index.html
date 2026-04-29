@@ -42,7 +42,7 @@
             <span class="logo-icon">
                 <img src="{{ url_for('static', filename='ipl-logo.png') }}">
             </span>
-            <h1 class="logo-text"><span class="logo-highlight">Score</span></h1>
+            <h1 class="logo-text">Ipl<span class="logo-highlight">Score</span></h1>
         </div>
 
         <!-- RIGHT SIDE (Logout Button) -->
@@ -163,31 +163,34 @@
             </form>
 
             <!-- Results Section -->
-            {% if prediction_text %}
-            
+            {% if prediction_text and prediction_text != 0 %}
+
 <div class="results-card">
 
     <h3>Prediction Score</h3>
 
     <div class="score-display">
 
-    <span class="score-label">Predicted Total</span>
+        <span class="score-label">Predicted Total</span>
 
-    <div class="score-box">
+        <div class="score-box">
 
-        <img src="{{ url_for('static', filename=team_logo) }}" class="team-logo">
+            {% if team_logo %}
+            <img src="{{ url_for('static', filename=team_logo) }}" class="team-logo">
+            {% endif %}
 
-        <span class="score-value">{{ prediction_text }}</span>
+            <span class="score-value">{{ prediction_text }}</span>
+
+        </div>
 
     </div>
-
-</div>
 
     <div class="confidence-bar">
         <div class="confidence-fill" style="width: {{ confidence }}%"></div>
     </div>
 
     <div class="stats-grid">
+
         <div class="stat-item">
             <span class="stat-label">Confidence</span>
             <span class="stat-value">{{ confidence }}%</span>
@@ -196,12 +199,14 @@
         <div class="stat-item">
             <span class="stat-label">Range</span>
             <span class="stat-value">
-                {{ (prediction_text | int) - 10 }} - {{ (prediction_text | int) + 10 }}
+                {{ (prediction_text|int)-10 }} - {{ (prediction_text|int)+10 }}
             </span>
         </div>
+
     </div>
 
 </div>
+
 {% endif %}
 <ul class="cool-list">
     <li>🔥 AI Powered Prediction</li>
