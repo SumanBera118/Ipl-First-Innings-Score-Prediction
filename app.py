@@ -13,8 +13,6 @@ import pickle
 import pandas as pd
 import os
 import random
-import smtplib
-from email.mime.text import MIMEText
 
 # ===========================
 # APP START
@@ -24,7 +22,7 @@ app = Flask(__name__)
 # ===========================
 # CONFIG
 # ===========================
-app.config['SECRET_KEY'] = 'secret123'
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY", "fallback-secret")
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -67,7 +65,7 @@ with open("columns.pkl", "rb") as f:
     cols = pickle.load(f)
 
 # ===========================
-# LOGIN
+# LOGIN (OTP REMOVED FOR DEPLOY)
 # ===========================
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -79,71 +77,15 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
 
-        if not username or not password:
-            error = "Please fill all fields"
-            return render_template("login.html", error=error)
-
         user = User.query.filter_by(username=username).first()
 
         if user and check_password_hash(user.password, password):
-
-            otp = str(random.randint(100000, 999999))
-
-            session['otp'] = otp
-            session['user_id'] = user.id
-
-            try:
-                msg = MIMEText(f"Your OTP is {otp}")
-                msg["Subject"] = "IPL Login OTP"
-                msg["From"] = "beraakash956@gmail.com"
-                msg["To"] = user.email
-
-                server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
-                server.login(
-                    "beraakash956@gmail.com",
-                    "hjgamitxfsfpqrmm"
-                )
-
-                server.send_message(msg)
-                server.quit()
-
-                return redirect(url_for('verify_otp'))
-
-            except Exception as e:
-                error = f"Email sending failed"
-
+            login_user(user)
+            return redirect(url_for('home'))
         else:
-            error = "Incorrect username or password"
+            error = "Invalid credentials"
 
     return render_template("login.html", error=error)
-
-# ===========================
-# VERIFY OTP
-# ===========================
-@app.route('/verify_otp', methods=['GET', 'POST'])
-def verify_otp():
-
-    error = None
-
-    if request.method == 'POST':
-
-        user_otp = request.form.get('otp')
-
-        if user_otp == session.get('otp'):
-
-            user = User.query.get(session['user_id'])
-
-            login_user(user)
-
-            session.pop('otp', None)
-            session.pop('user_id', None)
-
-            return redirect(url_for('home'))
-
-        else:
-            error = "Wrong OTP"
-
-    return render_template("verify_otp.html", error=error)
 
 # ===========================
 # REGISTER
@@ -161,22 +103,13 @@ def register():
         fav_team = request.form.get('fav_team')
 
         if password != confirm:
-            return render_template(
-                'register.html',
-                error="Passwords do not match"
-            )
+            return render_template('register.html', error="Passwords do not match")
 
         if User.query.filter_by(username=username).first():
-            return render_template(
-                'register.html',
-                error="Username already exists"
-            )
+            return render_template('register.html', error="Username exists")
 
         if User.query.filter_by(email=email).first():
-            return render_template(
-                'register.html',
-                error="Email already registered"
-            )
+            return render_template('register.html', error="Email exists")
 
         hashed_password = generate_password_hash(password)
 
@@ -208,7 +141,6 @@ def logout():
 # HOME
 # ===========================
 @app.route('/')
-@login_required
 def home():
     return render_template(
         'index.html',
@@ -232,12 +164,10 @@ def predict():
         runs = int(request.form.get('team_runs'))
         wickets = int(request.form.get('team_wicket'))
 
-        over_input = request.form.get('over')
-        over_float = float(over_input)
+        over_input = float(request.form.get('over'))
 
-        whole = int(over_float)
-        balls = int(round((over_float - whole) * 10))
-
+        whole = int(over_input)
+        balls = int(round((over_input - whole) * 10))
         if balls > 5:
             balls = 5
 
@@ -253,62 +183,34 @@ def predict():
         })
 
         temp_df = pd.get_dummies(temp_df)
-
         input_data = temp_df.reindex(columns=cols, fill_value=0)
 
         prediction = model.predict(input_data)[0]
 
-        if overs < 6:
-            boost = 30
-        elif overs < 15:
-            boost = 25
-        else:
-            boost = 20
+        boost = 30 if overs < 6 else 25 if overs < 15 else 20
 
         final_score = int(prediction) + boost
         confidence = 91
-
-        team_logo_map = {
-            "Chennai Super Kings": "CSKlogo.webp",
-            "Delhi Capitals": "DC.webp",
-            "Gujarat Titans": "GT.png",
-            "Kolkata Knight Riders": "KKR.webp",
-            "Lucknow Super Giants": "LSG.webp",
-            "Mumbai Indians": "MI.webp",
-            "Punjab Kings": "PK.png",
-            "Royal Challengers Bangalore": "RCB.png",
-            "Rajasthan Royals": "RR.png",
-            "Sunrisers Hyderabad": "SRH.png"
-        }
-
-        team_logo = team_logo_map.get(
-            batting_team,
-            "ipl-logo.png"
-        )
 
         return render_template(
             'index.html',
             prediction_text=final_score,
             confidence=confidence,
-            team_logo=team_logo
+            team_logo=None
         )
 
     except Exception as e:
-
         return render_template(
             'index.html',
-            prediction_text="Prediction Error",
+            prediction_text="Error",
             confidence=0,
             team_logo=None
         )
 
 # ===========================
-# RUN
+# RUN (LOCAL ONLY)
 # ===========================
 if __name__ == "__main__":
-
     with app.app_context():
         db.create_all()
-
-    app.run(debug=True)
-
+    app.run()
